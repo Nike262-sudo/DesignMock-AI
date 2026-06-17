@@ -1,0 +1,1482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DesignMock AI — Practice design interviews with AI</title>
+<meta name="description" content="Get realistic interview questions, recruiter-style feedback, and hiring insights in minutes. Built for Product, UX, and UI Designers.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#080810;
+  --bg2:#0d0d1a;
+  --bg3:#111120;
+  --surface:#13131f;
+  --surface2:#1a1a2e;
+  --border:#ffffff08;
+  --border2:#ffffff12;
+  --text:#f0f0ff;
+  --text2:#a0a0c0;
+  --text3:#606080;
+  --accent:#7c6dfa;
+  --accent2:#a78bfa;
+  --accent3:#c4b5fd;
+  --green:#34d399;
+  --blue:#60a5fa;
+  --pink:#f472b6;
+  --amber:#fbbf24;
+  --r:14px;
+  --r2:20px;
+  --r3:28px;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;outline:none}
+img{max-width:100%;display:block}
+
+/* Typography */
+.display{font-size:clamp(2.6rem,5vw,4.5rem);font-weight:800;letter-spacing:-0.03em;line-height:1.07}
+.display-sm{font-size:clamp(1.8rem,3vw,2.8rem);font-weight:800;letter-spacing:-0.025em;line-height:1.1}
+.h2{font-size:clamp(1.4rem,2.5vw,2rem);font-weight:700;letter-spacing:-0.02em;line-height:1.2}
+.h3{font-size:1.1rem;font-weight:600;letter-spacing:-0.01em}
+.label{font-size:.75rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--accent2)}
+.mono{font-family:'JetBrains Mono',monospace;font-size:.85rem}
+
+/* Layout */
+.container{max-width:1100px;margin:0 auto;padding:0 24px}
+.section{padding:96px 0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+.grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+
+/* Nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 24px;transition:all .3s}
+nav.scrolled{background:rgba(8,8,16,.92);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);box-shadow:0 1px 0 rgba(255,255,255,.04),0 4px 24px rgba(0,0,0,.4)}
+.nav-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{display:flex;align-items:center;gap:8px;font-weight:700;font-size:1.05rem}
+.nav-logo-mark{width:30px;height:30px;background:linear-gradient(135deg,var(--accent),var(--blue));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:800;color:#fff}
+.nav-links{display:flex;align-items:center;gap:28px}
+.nav-links a{font-size:.88rem;color:var(--text2);transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+.nav-cta{background:var(--accent);color:#fff;padding:8px 18px;border-radius:8px;font-size:.88rem;font-weight:600;transition:all .2s}
+.nav-cta:hover{background:#6b5ce7;transform:translateY(-1px)}
+.nav-mobile-toggle{display:none;background:none;border:1px solid var(--border2);border-radius:8px;padding:6px 10px;color:var(--text2)}
+
+/* Hero */
+#hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 24px 60px;overflow:hidden}
+.aurora{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.aurora-blob{position:absolute;border-radius:50%;filter:blur(80px);opacity:.35;animation:drift 8s ease-in-out infinite alternate}
+.aurora-blob:nth-child(1){width:600px;height:600px;background:radial-gradient(circle,#7c6dfa,transparent 70%);top:-200px;left:-100px;animation-delay:0s}
+.aurora-blob:nth-child(2){width:500px;height:500px;background:radial-gradient(circle,#3b82f6,transparent 70%);top:-150px;right:-80px;animation-delay:-3s}
+.aurora-blob:nth-child(3){width:400px;height:400px;background:radial-gradient(circle,#f472b6,transparent 70%);bottom:-100px;left:30%;animation-delay:-5s;opacity:.2}
+@keyframes drift{0%{transform:translate(0,0) scale(1)}100%{transform:translate(30px,20px) scale(1.05)}}
+
+#particles{position:absolute;inset:0;pointer-events:none}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--surface2);border:1px solid var(--border2);border-radius:100px;padding:6px 14px 6px 8px;font-size:.8rem;color:var(--text2);margin-bottom:28px}
+.badge-dot{width:8px;height:8px;background:var(--green);border-radius:50%;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(.9)}}
+.hero-title{max-width:760px;margin-bottom:20px}
+.hero-title span{background:linear-gradient(135deg,#a78bfa,#60a5fa,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:clamp(1rem,1.8vw,1.2rem);color:var(--text2);max-width:520px;margin:0 auto 36px;line-height:1.65}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-bottom:52px}
+.btn-primary{background:linear-gradient(135deg,var(--accent),#6b5ce7);color:#fff;padding:14px 28px;border-radius:10px;font-size:.95rem;font-weight:600;transition:all .25s;position:relative;overflow:hidden}
+.btn-primary::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.15),transparent);opacity:0;transition:opacity .2s}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(124,109,250,.4)}
+.btn-primary:hover::after{opacity:1}
+.btn-secondary{background:transparent;color:var(--text);padding:14px 28px;border-radius:10px;font-size:.95rem;font-weight:500;border:1px solid var(--border2);transition:all .25s}
+.btn-secondary:hover{background:var(--surface);border-color:var(--border2);transform:translateY(-2px)}
+.trust-row{display:flex;align-items:center;gap:10px;font-size:.82rem;color:var(--text3)}
+.stars{color:var(--amber);letter-spacing:2px}
+
+/* Dashboard Preview */
+.dashboard-wrap{position:relative;z-index:10;margin-top:-20px;padding:0 24px}
+.dashboard{background:#070714;border:1px solid rgba(255,255,255,.08);border-radius:20px;overflow:hidden;max-width:980px;margin:0 auto;box-shadow:0 40px 100px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.04),inset 0 1px 0 rgba(255,255,255,.06);animation:float 6s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+/* Titlebar */
+.db-header{padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid rgba(255,255,255,.06)}
+.db-dots{display:flex;gap:5px;flex-shrink:0}
+.db-dots span{width:9px;height:9px;border-radius:50%}
+.db-dots span:nth-child(1){background:#ff5f57}
+.db-dots span:nth-child(2){background:#febc2e}
+.db-dots span:nth-child(3){background:#28c840}
+.db-title{font-size:.72rem;color:rgba(255,255,255,.25);font-weight:500;letter-spacing:.01em}
+.db-header-right{display:flex;align-items:center;gap:7px}
+.db-badge{background:rgba(52,211,153,.08);color:#34d399;border:1px solid rgba(52,211,153,.15);border-radius:100px;padding:3px 9px;font-size:.62rem;font-weight:600;display:flex;align-items:center;gap:4px}
+.db-badge-dot{width:5px;height:5px;background:#34d399;border-radius:50%;animation:pulse 2s ease-in-out infinite}
+.db-session-tag{background:rgba(124,109,250,.08);border:1px solid rgba(124,109,250,.15);border-radius:100px;padding:3px 9px;font-size:.62rem;color:rgba(167,139,250,.7);font-weight:500}
+/* Body: 3 cols */
+.db-body{padding:12px;display:grid;grid-template-columns:148px 1fr 200px;gap:10px;align-items:stretch}
+/* Col 1 — score */
+.db-score-col{display:flex;flex-direction:column;gap:8px}
+.db-score-ring{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:16px 10px 12px;text-align:center;display:flex;flex-direction:column;align-items:center;flex:1}
+.score-ring-wrap{display:flex;justify-content:center;margin-bottom:4px}
+.db-grade{display:inline-flex;align-items:center;gap:4px;background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.15);border-radius:100px;padding:3px 9px;font-size:.58rem;font-weight:700;color:#34d399;margin-top:6px}
+.db-verdict{background:linear-gradient(135deg,rgba(124,109,250,.08),rgba(96,165,250,.04));border:1px solid rgba(124,109,250,.15);border-radius:12px;padding:10px 11px;display:flex;align-items:center;gap:8px}
+.verdict-icon-box{width:26px;height:26px;background:linear-gradient(135deg,#7c6dfa,#60a5fa);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.72rem;flex-shrink:0;box-shadow:0 3px 10px rgba(124,109,250,.3)}
+.verdict-label{font-size:.52rem;color:rgba(255,255,255,.28);text-transform:uppercase;letter-spacing:.08em;margin-bottom:1px}
+.verdict-val{font-size:.75rem;font-weight:800;color:#34d399}
+.verdict-sub{font-size:.54rem;color:rgba(255,255,255,.22);margin-top:1px;line-height:1.3}
+/* Col 2 — radar center */
+.db-radar-col{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:12px 10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+/* Col 3 — right panels */
+.db-right-col{display:flex;flex-direction:column;gap:8px}
+.db-panel{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:10px 11px}
+.panel-title{font-size:.53rem;color:rgba(255,255,255,.25);font-weight:600;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+/* Bars */
+.db-metrics-mini{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:10px 11px}
+.db-metrics-title{font-size:.53rem;color:rgba(255,255,255,.25);text-transform:uppercase;letter-spacing:.1em;margin-bottom:7px}
+.metric-row{display:flex;align-items:center;gap:7px;margin-bottom:5px}
+.metric-row:last-child{margin-bottom:0}
+.metric-label{font-size:.6rem;color:rgba(255,255,255,.38);width:58px;flex-shrink:0}
+.metric-bar-wrap{flex:1;height:2.5px;background:rgba(255,255,255,.06);border-radius:100px;overflow:hidden}
+.metric-bar{height:100%;border-radius:100px}
+.metric-val{font-size:.6rem;font-weight:700;min-width:18px;text-align:right}
+/* Competency */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.comp-item{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);border-radius:8px;padding:7px 8px}
+.comp-name{font-size:.54rem;color:rgba(255,255,255,.25);margin-bottom:2px}
+.comp-val{font-size:.7rem;font-weight:700}
+.comp-bar{height:1.5px;border-radius:100px;margin-top:5px;opacity:.4}
+/* Insights */
+.db-insight-item{display:flex;align-items:flex-start;gap:6px;padding:6px 8px;border-radius:7px;font-size:.62rem;line-height:1.4;font-weight:500}
+.insight-icon{width:14px;height:14px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:.56rem;flex-shrink:0;margin-top:1px}
+
+/* Why section */
+.why-section{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.fail-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:28px;transition:all .3s;position:relative;overflow:hidden}
+.fail-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(244,114,182,.06),transparent);opacity:0;transition:opacity .3s}
+.fail-card:hover{border-color:var(--border2);transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.fail-card:hover::before{opacity:1}
+.fail-icon{font-size:1.6rem;margin-bottom:14px}
+.fail-card h3{margin-bottom:8px}
+.fail-card p{font-size:.88rem;color:var(--text2);line-height:1.6}
+.fail-tag{display:inline-block;background:rgba(244,114,182,.1);color:#f9a8d4;border:1px solid rgba(244,114,182,.2);border-radius:100px;padding:2px 10px;font-size:.68rem;font-weight:600;margin-bottom:14px}
+
+/* How it works */
+.steps-wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:0;position:relative;max-width:860px;margin:0 auto}
+.steps-wrap::before{content:'';position:absolute;top:48px;left:16.6%;right:16.6%;height:1px;background:linear-gradient(90deg,transparent,var(--accent),var(--blue),var(--accent),transparent);z-index:0}
+.step{position:relative;z-index:1;padding:0 20px;text-align:center}
+.step-num{width:48px;height:48px;border-radius:50%;border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;margin:0 auto 20px;background:var(--surface);position:relative;transition:all .3s}
+.step:hover .step-num{border-color:var(--accent);box-shadow:0 0 20px rgba(124,109,250,.3);color:var(--accent)}
+.role-chips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:10px}
+.chip{background:var(--surface2);border:1px solid var(--border);border-radius:100px;padding:4px 12px;font-size:.72rem;font-weight:500;color:var(--text2)}
+
+/* Chat section */
+.chat-wrap{max-width:700px;margin:0 auto}
+.chat-bubble{display:flex;gap:12px;margin-bottom:16px;animation:fadeUp .5s ease both}
+.chat-bubble.ai{flex-direction:row}
+.chat-bubble.user{flex-direction:row-reverse}
+.chat-avatar{width:34px;height:34px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700}
+.ai .chat-avatar{background:linear-gradient(135deg,var(--accent),var(--blue));color:#fff}
+.user .chat-avatar{background:var(--surface2);border:1px solid var(--border2);color:var(--text2)}
+.bubble{max-width:75%;padding:12px 16px;border-radius:16px;font-size:.88rem;line-height:1.55}
+.ai .bubble{background:var(--surface2);border:1px solid var(--border);border-top-left-radius:4px}
+.user .bubble{background:linear-gradient(135deg,rgba(124,109,250,.25),rgba(96,165,250,.15));border:1px solid rgba(124,109,250,.2);border-top-right-radius:4px;text-align:right}
+.chat-typing{display:flex;align-items:center;gap:5px;padding:10px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:16px;border-top-left-radius:4px;width:fit-content}
+.typing-dot{width:6px;height:6px;background:var(--text3);border-radius:50%;animation:typingDot 1.2s ease-in-out infinite}
+.typing-dot:nth-child(2){animation-delay:.2s}
+.typing-dot:nth-child(3){animation-delay:.4s}
+@keyframes typingDot{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-4px)}}
+
+/* Feedback Report */
+.report-wrap{background:var(--surface);border:1px solid var(--border2);border-radius:var(--r3);overflow:hidden;max-width:800px;margin:0 auto}
+.report-header{background:linear-gradient(135deg,rgba(124,109,250,.15),rgba(96,165,250,.1));border-bottom:1px solid var(--border);padding:28px 32px;display:flex;align-items:center;justify-content:space-between}
+.report-body{padding:32px}
+.score-items{display:flex;flex-direction:column;gap:16px}
+.score-item{display:grid;align-items:center;gap:14px}
+.score-item-inner{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.score-item-label{font-size:.88rem;font-weight:500;min-width:200px}
+.score-item-bar-wrap{flex:1;height:6px;background:var(--border2);border-radius:100px;overflow:hidden}
+.score-item-bar{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--accent),var(--blue))}
+.score-item-num{font-size:.88rem;font-weight:700;min-width:36px;text-align:right}
+.hire-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.25);color:var(--green);border-radius:100px;padding:8px 20px;font-weight:700;font-size:.88rem}
+.hire-dot{width:8px;height:8px;background:var(--green);border-radius:50%}
+
+/* Features */
+.feat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:24px;transition:all .3s}
+.feat-card:hover{border-color:var(--border2);transform:translateY(-3px);box-shadow:0 16px 48px rgba(0,0,0,.25)}
+.feat-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;margin-bottom:14px}
+.feat-card h3{margin-bottom:6px;font-size:.95rem}
+.feat-card p{font-size:.83rem;color:var(--text2);line-height:1.55}
+
+/* Stats */
+.stats-bar{background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:40px 0}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;text-align:center}
+.stat-item{padding:0 20px;border-right:1px solid var(--border)}
+.stat-item:last-child{border-right:none}
+.stat-num{font-size:2.2rem;font-weight:800;letter-spacing:-0.03em;background:linear-gradient(135deg,var(--accent2),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.stat-label{font-size:.78rem;color:var(--text3);margin-top:2px}
+
+/* Testimonials */
+.test-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:28px;transition:all .3s}
+.test-card:hover{border-color:var(--border2);transform:translateY(-3px)}
+.test-quote{font-size:.9rem;color:var(--text2);line-height:1.65;margin-bottom:20px;position:relative;padding-left:16px}
+.test-quote::before{content:'';position:absolute;left:0;top:4px;bottom:4px;width:2px;background:linear-gradient(180deg,var(--accent),var(--blue));border-radius:2px}
+.test-person{display:flex;align-items:center;gap:12px}
+.test-avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;color:#fff;flex-shrink:0}
+.test-name{font-size:.85rem;font-weight:600}
+.test-role{font-size:.75rem;color:var(--text3)}
+.test-outcome{margin-top:14px;background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.15);border-radius:8px;padding:8px 12px;font-size:.75rem;color:var(--green);font-weight:500}
+
+/* Pricing */
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;max-width:680px;margin:0 auto}
+.price-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:32px;transition:all .3s;position:relative}
+.price-card.featured{border-color:rgba(124,109,250,.5);background:linear-gradient(135deg,rgba(124,109,250,.08),var(--surface))}
+.price-card.featured::before{content:'Most Popular';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;font-size:.7rem;font-weight:700;padding:4px 14px;border-radius:100px;white-space:nowrap;letter-spacing:.05em}
+.price-tag{font-size:2.6rem;font-weight:800;letter-spacing:-0.03em;margin:16px 0 4px}
+.price-tag span{font-size:1rem;font-weight:400;color:var(--text3)}
+.price-period{font-size:.8rem;color:var(--text3);margin-bottom:24px}
+.price-features{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
+.price-features li{font-size:.85rem;color:var(--text2);display:flex;align-items:center;gap:8px}
+.price-features li::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0}
+.price-features li.dim::before{content:'✗';color:var(--text3)}
+.price-features li.dim{color:var(--text3)}
+.price-btn{width:100%;padding:12px;border-radius:10px;font-size:.9rem;font-weight:600;transition:all .25s}
+.price-btn-free{background:var(--surface2);color:var(--text);border:1px solid var(--border2)}
+.price-btn-free:hover{background:var(--bg3)}
+.price-btn-pro{background:linear-gradient(135deg,var(--accent),#6b5ce7);color:#fff}
+.price-btn-pro:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(124,109,250,.35)}
+
+/* FAQ */
+.faq-wrap{max-width:680px;margin:0 auto}
+.faq-item{border-bottom:1px solid var(--border)}
+.faq-q{width:100%;text-align:left;background:none;color:var(--text);padding:20px 0;font-size:.95rem;font-weight:500;display:flex;justify-content:space-between;align-items:center;gap:16px;cursor:pointer;transition:color .2s}
+.faq-q:hover{color:var(--accent2)}
+.faq-arrow{font-size:.7rem;color:var(--text3);transition:transform .3s;flex-shrink:0}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s}
+.faq-a.open{max-height:200px;padding-bottom:18px}
+.faq-a p{font-size:.88rem;color:var(--text2);line-height:1.65}
+.faq-arrow.open{transform:rotate(180deg)}
+
+/* Final CTA */
+.final-cta{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:96px 0}
+.cta-inner{display:grid;grid-template-columns:1fr 420px;gap:60px;align-items:center;max-width:1100px;margin:0 auto;padding:0 24px}
+.cta-left{}
+.cta-proof{display:flex;align-items:center;gap:10px;margin-bottom:28px}
+.cta-avatars{display:flex}
+.cta-avatars span{width:30px;height:30px;border-radius:50%;border:2px solid var(--bg2);display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;color:#fff;margin-left:-8px}
+.cta-avatars span:first-child{margin-left:0}
+.cta-proof-text{font-size:.8rem;color:var(--text2)}
+.cta-proof-text strong{color:var(--text)}
+.cta-wins{display:flex;flex-direction:column;gap:12px;margin-top:32px}
+.cta-win{display:flex;align-items:flex-start;gap:10px;font-size:.88rem;color:var(--text2)}
+.cta-win-dot{width:18px;height:18px;border-radius:50%;background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.cta-right-card{background:var(--surface);border:1px solid var(--border2);border-radius:var(--r2);padding:36px;position:relative;overflow:hidden}
+.cta-right-card::before{content:'';position:absolute;top:-60px;right:-60px;width:180px;height:180px;background:radial-gradient(circle,rgba(124,109,250,.2),transparent 70%);pointer-events:none}
+.cta-input-row{display:flex;flex-direction:column;gap:10px;margin-bottom:12px}
+.cta-input{background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:12px 16px;font-size:.9rem;color:var(--text);font-family:'Inter',sans-serif;outline:none;transition:border-color .2s;width:100%}
+.cta-input::placeholder{color:var(--text3)}
+.cta-input:focus{border-color:rgba(124,109,250,.5)}
+.cta-submit{width:100%;padding:14px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#6b5ce7);color:#fff;font-size:.95rem;font-weight:600;cursor:pointer;border:none;font-family:'Inter',sans-serif;transition:all .25s;margin-bottom:16px}
+.cta-submit:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(124,109,250,.4)}
+.cta-divider{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.cta-divider span{flex:1;height:1px;background:var(--border)}
+.cta-divider p{font-size:.72rem;color:var(--text3);white-space:nowrap}
+.cta-alt{width:100%;padding:12px;border-radius:10px;background:transparent;color:var(--text2);font-size:.88rem;font-weight:500;border:1px solid var(--border2);cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s}
+.cta-alt:hover{background:var(--surface2);color:var(--text)}
+.cta-fine{font-size:.72rem;color:var(--text3);text-align:center;margin-top:14px;line-height:1.6}
+@media(max-width:860px){.cta-inner{grid-template-columns:1fr}.cta-right-card{max-width:480px}}
+
+/* Footer */
+footer{padding:60px 24px 32px;border-top:1px solid var(--border)}
+.footer-inner{max-width:1100px;margin:0 auto}
+.footer-top{display:flex;flex-wrap:wrap;gap:40px;justify-content:space-between;margin-bottom:48px}
+.footer-brand{max-width:240px}
+.footer-brand p{font-size:.83rem;color:var(--text3);margin-top:10px;line-height:1.6}
+.footer-links h4{font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-bottom:14px}
+.footer-links ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.footer-links ul li a{font-size:.83rem;color:var(--text2);transition:color .2s}
+.footer-links ul li a:hover{color:var(--text)}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding-top:24px;border-top:1px solid var(--border)}
+.footer-bottom p{font-size:.78rem;color:var(--text3)}
+
+/* Animations */
+.fade-up{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.fade-up.visible{opacity:1;transform:translateY(0)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+/* Scroll gradient  */
+.section-label{margin-bottom:16px}
+.section-header{text-align:center;margin-bottom:64px}
+.section-header p{font-size:1.05rem;color:var(--text2);max-width:520px;margin:12px auto 0}
+
+/* Mobile nav */
+.mobile-nav{display:none;position:fixed;inset:0;background:rgba(8,8,16,.97);z-index:999;padding:80px 24px 40px;flex-direction:column;gap:24px}
+.mobile-nav.open{display:flex}
+.mobile-nav a{font-size:1.2rem;font-weight:500;color:var(--text);padding:12px 0;border-bottom:1px solid var(--border)}
+
+@media(max-width:860px){#features .container>div[style*="grid-template-columns:repeat(3"]{grid-template-columns:1fr!important}section div[style*="grid-template-columns:repeat(3,1fr)"]{grid-template-columns:1fr!important}}
+@media(max-width:768px){
+  .nav-links,.nav-cta{display:none}
+  .nav-mobile-toggle{display:block}
+  .db-body{grid-template-columns:1fr}
+  .steps-wrap{grid-template-columns:1fr;gap:32px}
+  .steps-wrap::before{display:none}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .stat-item:nth-child(2){border-right:none}
+  .stat-item:nth-child(3){border-right:1px solid var(--border)}
+  .footer-top{flex-direction:column;gap:32px}
+  .final-cta{padding:52px 24px}
+  .report-header{flex-direction:column;gap:16px;align-items:flex-start}
+  .report-body{padding:20px}
+  .score-item-label{min-width:140px;font-size:.8rem}
+}
+@media(max-width:500px){
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .db-body{grid-template-columns:1fr}
+  .competency-grid{grid-template-columns:1fr 1fr}
+}
+@media(prefers-reduced-motion:reduce){
+  .aurora-blob,.dashboard{animation:none}
+  .fade-up{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<!-- Mobile Nav -->
+<div class="mobile-nav" id="mobileNav">
+  <a href="#features" onclick="closeMobileNav()">Features</a>
+  <a href="#how" onclick="closeMobileNav()">How it works</a>
+  <a href="#waitlist" onclick="closeMobileNav()">Waitlist</a>
+  <a href="#faq" onclick="closeMobileNav()">FAQ</a>
+  <button class="btn-primary" style="margin-top:8px;border-radius:10px;padding:14px" onclick="closeMobileNav();document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">Join waitlist →</button>
+</div>
+
+<!-- Nav -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <div class="nav-logo">
+      <div class="nav-logo-mark">D</div>
+      DesignMock AI
+    </div>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#how">How it works</a>
+      <a href="#waitlist">Waitlist</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <a href="#waitlist" class="nav-cta">Join waitlist</a>
+    <button class="nav-mobile-toggle" onclick="toggleMobileNav()" aria-label="Toggle menu">
+      <svg width="16" height="14" viewBox="0 0 16 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+        <line x1="0" y1="2" x2="16" y2="2"/><line x1="0" y1="7" x2="16" y2="7"/><line x1="0" y1="12" x2="16" y2="12"/>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="aurora">
+    <div class="aurora-blob"></div>
+    <div class="aurora-blob"></div>
+    <div class="aurora-blob"></div>
+  </div>
+  <canvas id="particles"></canvas>
+
+  <div class="hero-badge">
+    <span class="badge-dot"></span>
+    Early Access — launching soon
+  </div>
+  <div style="display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,rgba(124,109,250,.15),rgba(96,165,250,.1));border:1px solid rgba(124,109,250,.3);border-radius:100px;padding:5px 14px;font-size:.75rem;font-weight:600;color:var(--accent3);margin-bottom:16px;letter-spacing:.04em">
+    ✦ Coming Soon
+  </div>
+  <h1 class="display hero-title">
+    Practice product design<br>interviews with <span>AI.</span>
+  </h1>
+  <p class="hero-sub">Get realistic interview questions, recruiter-style feedback, and hiring insights — in minutes. Built for Product, UX, and UI designers.</p>
+  <div class="hero-actions">
+    <button class="btn-primary" onclick="document.getElementById('demo-section').scrollIntoView({behavior:'smooth'})">Try sample question →</button>
+    <button class="btn-secondary" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">Join the waitlist</button>
+  </div>
+  <div class="trust-row">
+    <span style="color:var(--accent2);font-size:.9rem">◆</span>
+    <span>1,200+ designers already on the waitlist</span>
+  </div>
+</section>
+
+<!-- DASHBOARD PREVIEW -->
+<div class="dashboard-wrap" id="preview">
+  <div class="dashboard fade-up">
+
+    <!-- Title bar -->
+    <div class="db-header">
+      <div class="db-dots"><span></span><span></span><span></span></div>
+      <span class="db-title">DesignMock AI &nbsp;/&nbsp; Session #47 &nbsp;&middot;&nbsp; Senior Product Designer</span>
+      <div class="db-header-right">
+        <span class="db-session-tag">Interview in progress</span>
+        <span class="db-badge"><span class="db-badge-dot"></span>Live Analysis</span>
+      </div>
+    </div>
+
+    <div class="db-body">
+
+      <!-- Col 1: Score ring only — clear, singular focus -->
+      <div class="db-score-col">
+        <div class="db-score-ring">
+          <div style="font-size:.52rem;color:rgba(255,255,255,.25);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px">Overall Score</div>
+          <div class="score-ring-wrap">
+            <svg width="110" height="110" viewBox="0 0 110 110">
+              <defs>
+                <linearGradient id="sg" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#7c6dfa"/><stop offset="100%" stop-color="#60a5fa"/>
+                </linearGradient>
+                <linearGradient id="sg2" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#7c6dfa" stop-opacity=".08"/><stop offset="100%" stop-color="#60a5fa" stop-opacity=".03"/>
+                </linearGradient>
+                <filter id="glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+              </defs>
+              <circle cx="55" cy="55" r="50" fill="none" stroke="url(#sg2)" stroke-width="14"/>
+              <circle cx="55" cy="55" r="44" fill="none" stroke="rgba(255,255,255,.04)" stroke-width="6"/>
+              <circle cx="55" cy="55" r="44" fill="none" stroke="url(#sg)" stroke-width="6" stroke-linecap="round"
+                stroke-dasharray="276.46" stroke-dashoffset="33.2" transform="rotate(-90 55 55)" filter="url(#glow)"/>
+              <circle cx="55" cy="55" r="37" fill="rgba(124,109,250,.04)"/>
+              <text x="55" y="50" text-anchor="middle" fill="#f0f0ff" font-size="24" font-weight="800" font-family="Inter,sans-serif">89</text>
+              <text x="55" y="64" text-anchor="middle" fill="rgba(255,255,255,.22)" font-size="7.5" font-family="Inter,sans-serif" letter-spacing="1">out of 100</text>
+            </svg>
+          </div>
+
+          <div class="db-grade" style="margin-top:10px">
+            <svg width="6" height="6" viewBox="0 0 6 6"><circle cx="3" cy="3" r="3" fill="#34d399"/></svg>
+            Strong Hire
+          </div>
+          <div style="font-size:.52rem;color:rgba(255,255,255,.2);margin-top:5px;margin-bottom:16px">Top 18% of candidates</div>
+
+          <!-- Score breakdown bars — the only place they appear -->
+          <div style="width:100%;display:flex;flex-direction:column;gap:7px">
+            <div class="metric-row"><span class="metric-label">Comms</span><div class="metric-bar-wrap"><div class="metric-bar" style="width:92%;background:linear-gradient(90deg,#34d399,#10b981)"></div></div><span class="metric-val" style="color:#34d399">92</span></div>
+            <div class="metric-row"><span class="metric-label">UX Process</span><div class="metric-bar-wrap"><div class="metric-bar" style="width:91%;background:linear-gradient(90deg,#60a5fa,#818cf8)"></div></div><span class="metric-val" style="color:#60a5fa">91</span></div>
+            <div class="metric-row"><span class="metric-label">Storytelling</span><div class="metric-bar-wrap"><div class="metric-bar" style="width:88%;background:linear-gradient(90deg,#f472b6,#e879f9)"></div></div><span class="metric-val" style="color:#f472b6">88</span></div>
+            <div class="metric-row"><span class="metric-label">Product</span><div class="metric-bar-wrap"><div class="metric-bar" style="width:86%;background:linear-gradient(90deg,#7c6dfa,#a78bfa)"></div></div><span class="metric-val" style="color:#a78bfa">86</span></div>
+            <div class="metric-row"><span class="metric-label">Stakeholder</span><div class="metric-bar-wrap"><div class="metric-bar" style="width:78%;background:linear-gradient(90deg,#fbbf24,#f59e0b)"></div></div><span class="metric-val" style="color:#fbbf24">78</span></div>
+            <div class="metric-row"><span class="metric-label">Metrics</span><div class="metric-bar-wrap"><div class="metric-bar" style="width:72%;background:linear-gradient(90deg,#fb923c,#f97316)"></div></div><span class="metric-val" style="color:#fb923c">72</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Col 2: Radar — visual shape of strengths, no redundant legend -->
+      <div class="db-radar-col">
+        <div class="panel-title" style="align-self:flex-start;width:100%;margin-bottom:2px">Skill Radar</div>
+        <div style="font-size:.56rem;color:rgba(255,255,255,.2);align-self:flex-start;margin-bottom:4px">Shape of your strengths across all categories</div>
+        <svg width="100%" height="100%" viewBox="0 0 260 260" style="max-width:280px;flex:1">
+          <defs>
+            <radialGradient id="radarfill" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#7c6dfa" stop-opacity=".35"/>
+              <stop offset="100%" stop-color="#60a5fa" stop-opacity=".06"/>
+            </radialGradient>
+          </defs>
+          <!-- Grid rings — center 130,130 maxR=100 -->
+          <polygon points="130,30 216,80 216,180 130,230 44,180 44,80"   fill="none" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+          <polygon points="130,55 194,92 194,168 130,205 66,168 66,92"   fill="none" stroke="rgba(255,255,255,.05)" stroke-width="1"/>
+          <polygon points="130,80 172,104 172,156 130,180 88,156 88,104"  fill="none" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+          <polygon points="130,105 151,116 151,144 130,155 109,144 109,116" fill="none" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+          <!-- Axis lines -->
+          <line x1="130" y1="30"  x2="130" y2="230" stroke="rgba(255,255,255,.05)" stroke-width="1"/>
+          <line x1="44"  y1="80"  x2="216" y2="180" stroke="rgba(255,255,255,.05)" stroke-width="1"/>
+          <line x1="216" y1="80"  x2="44"  y2="180" stroke="rgba(255,255,255,.05)" stroke-width="1"/>
+          <!-- Data polygon
+               maxR=100, center=130,130
+               Comms(top,92):      130, 130-100*.92 = 130,38
+               Product(TR,86):     130+100*.86*sin60=130+74.4=204, 130-100*.86*cos60=130-43=87
+               UX(BR,91):          130+100*.91*sin60=130+78.8=209, 130+100*.91*cos60=130+45.5=175.5
+               Stakeholder(bot,78):130, 130+100*.78=208
+               Story(BL,88):       130-100*.88*sin60=130-76.2=54,  130+100*.88*cos60=130+44=174
+               Metrics(TL,72):     130-100*.72*sin60=130-62.4=68,  130-100*.72*cos60=130-36=94
+          -->
+          <polygon points="130,38 204,87 209,176 130,208 54,174 68,94"
+            fill="url(#radarfill)" stroke="rgba(124,109,250,.55)" stroke-width="2" stroke-linejoin="round"/>
+
+          <!-- Dots — colors MATCH the bars in col 1 -->
+          <!-- Comms = green (#34d399) -->
+          <circle cx="130" cy="38"  r="5" fill="#34d399" stroke="rgba(52,211,153,.25)"  stroke-width="6"/>
+          <!-- Product = purple (#a78bfa) -->
+          <circle cx="204" cy="87"  r="5" fill="#a78bfa" stroke="rgba(167,139,250,.25)" stroke-width="6"/>
+          <!-- UX = blue (#60a5fa) -->
+          <circle cx="209" cy="176" r="5" fill="#60a5fa" stroke="rgba(96,165,250,.25)"  stroke-width="6"/>
+          <!-- Stakeholder = amber (#fbbf24) -->
+          <circle cx="130" cy="208" r="5" fill="#fbbf24" stroke="rgba(251,191,36,.25)"  stroke-width="6"/>
+          <!-- Story = pink (#f472b6) -->
+          <circle cx="54"  cy="174" r="5" fill="#f472b6" stroke="rgba(244,114,182,.25)" stroke-width="6"/>
+          <!-- Metrics = orange (#fb923c) -->
+          <circle cx="68"  cy="94"  r="5" fill="#fb923c" stroke="rgba(251,146,60,.25)"  stroke-width="6"/>
+
+          <!-- Labels — colored to match dots & bars -->
+          <text x="130" y="18"  text-anchor="middle" fill="#34d399" font-size="9.5" font-family="Inter,sans-serif" font-weight="600">Comms</text>
+          <text x="222" y="83"  text-anchor="start"  fill="#a78bfa" font-size="9.5" font-family="Inter,sans-serif" font-weight="600">Product</text>
+          <text x="222" y="180" text-anchor="start"  fill="#60a5fa" font-size="9.5" font-family="Inter,sans-serif" font-weight="600">UX</text>
+          <text x="130" y="250" text-anchor="middle" fill="#fbbf24" font-size="9.5" font-family="Inter,sans-serif" font-weight="600">Stakeholder</text>
+          <text x="38"  y="180" text-anchor="end"    fill="#f472b6" font-size="9.5" font-family="Inter,sans-serif" font-weight="600">Story</text>
+          <text x="56"  y="90"  text-anchor="end"    fill="#fb923c" font-size="9.5" font-family="Inter,sans-serif" font-weight="600">Metrics</text>
+        </svg>
+      </div>
+
+      <!-- Col 3: AI Insights + single verdict — new information only -->
+      <div class="db-right-col">
+
+        <!-- Verdict — appears once, here, at the top of the action column -->
+        <div class="db-verdict">
+          <div class="verdict-icon-box">🏆</div>
+          <div>
+            <div class="verdict-label">Overall Recommendation</div>
+            <div class="verdict-val">Strong Hire</div>
+            <div class="verdict-sub">Top 18% · Ready for senior design loops</div>
+          </div>
+        </div>
+
+        <!-- AI Insights — genuinely new info not shown elsewhere -->
+        <div class="db-panel" style="flex:1">
+          <div class="panel-title">AI Feedback</div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div class="db-insight-item" style="background:rgba(52,211,153,.06);border:1px solid rgba(52,211,153,.12);color:#6ee7b7">
+              <div class="insight-icon" style="background:rgba(52,211,153,.14)">✓</div>
+              <div><strong style="display:block;margin-bottom:2px;color:#a7f3d0">Strong STAR structure</strong>Clear problem → process → outcome across all answers</div>
+            </div>
+            <div class="db-insight-item" style="background:rgba(52,211,153,.06);border:1px solid rgba(52,211,153,.12);color:#6ee7b7">
+              <div class="insight-icon" style="background:rgba(52,211,153,.14)">✓</div>
+              <div><strong style="display:block;margin-bottom:2px;color:#a7f3d0">Confident delivery</strong>Pacing and clarity scored in the top quarter</div>
+            </div>
+            <div class="db-insight-item" style="background:rgba(251,191,36,.05);border:1px solid rgba(251,191,36,.12);color:#fcd34d">
+              <div class="insight-icon" style="background:rgba(251,191,36,.12)">↑</div>
+              <div><strong style="display:block;margin-bottom:2px;color:#fde68a">Quantify your impact</strong>3 answers need a metric — conversion rate, retention, or revenue</div>
+            </div>
+            <div class="db-insight-item" style="background:rgba(251,191,36,.05);border:1px solid rgba(251,191,36,.12);color:#fcd34d">
+              <div class="insight-icon" style="background:rgba(251,191,36,.12)">↑</div>
+              <div><strong style="display:block;margin-bottom:2px;color:#fde68a">Deepen stakeholder examples</strong>Show influence without authority — not just alignment</div>
+            </div>
+            <div class="db-insight-item" style="background:rgba(244,114,182,.05);border:1px solid rgba(244,114,182,.12);color:#fbcfe8">
+              <div class="insight-icon" style="background:rgba(244,114,182,.12)">!</div>
+              <div><strong style="display:block;margin-bottom:2px;color:#fce7f3">Metrics gap</strong>Lowest scoring area — practice linking design decisions to business outcomes</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- INTERACTIVE DEMO -->
+<section class="section" id="demo-section" style="background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="label section-label">Try it now</div>
+      <h2 class="display-sm">See how AI feedback works</h2>
+      <p>This is a sample interview exchange. In the real product, you type your answer and the AI evaluates it in real time — just like this.</p>
+    </div>
+    <div style="max-width:760px;margin:0 auto" class="fade-up">
+      <!-- Chat shell -->
+      <div style="background:var(--surface);border:1px solid var(--border2);border-radius:var(--r2);overflow:hidden">
+        <!-- Chat header -->
+        <div style="background:var(--bg3);border-bottom:1px solid var(--border);padding:14px 20px;display:flex;align-items:center;justify-content:space-between">
+          <div style="display:flex;align-items:center;gap:10px">
+            <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--blue));display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;color:#fff">AI</div>
+            <div>
+              <div style="font-size:.82rem;font-weight:600">DesignMock Interviewer</div>
+              <div style="font-size:.68rem;color:var(--green)">● Active session</div>
+            </div>
+          </div>
+          <div style="background:rgba(124,109,250,.1);border:1px solid rgba(124,109,250,.2);border-radius:100px;padding:4px 12px;font-size:.7rem;color:var(--accent2);font-weight:500">Product Designer · Senior</div>
+        </div>
+        <!-- Messages -->
+        <div style="padding:24px;display:flex;flex-direction:column;gap:16px" id="demo-chat">
+          <!-- AI question -->
+          <div style="display:flex;gap:12px">
+            <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--blue));display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:700;color:#fff;flex-shrink:0;margin-top:2px">AI</div>
+            <div>
+              <div style="font-size:.68rem;color:var(--text3);margin-bottom:5px">DesignMock AI · Question 3 of 8</div>
+              <div style="background:var(--surface2);border:1px solid var(--border);border-radius:14px;border-top-left-radius:3px;padding:14px 16px;font-size:.9rem;line-height:1.6;max-width:80%">
+                Tell me about a product or feature you improved recently. Walk me through your process — and how you measured whether it was successful.
+              </div>
+            </div>
+          </div>
+          <!-- Sample answer -->
+          <div style="display:flex;gap:12px;flex-direction:row-reverse" id="demo-answer" style="display:none">
+            <div style="width:32px;height:32px;border-radius:50%;background:var(--surface2);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:600;color:var(--text2);flex-shrink:0;margin-top:2px">You</div>
+            <div style="display:flex;flex-direction:column;align-items:flex-end">
+              <div style="font-size:.68rem;color:var(--text3);margin-bottom:5px">Your response</div>
+              <div id="demo-typed" style="background:linear-gradient(135deg,rgba(124,109,250,.18),rgba(96,165,250,.1));border:1px solid rgba(124,109,250,.2);border-radius:14px;border-top-right-radius:3px;padding:14px 16px;font-size:.9rem;line-height:1.6;max-width:80%;text-align:left"></div>
+            </div>
+          </div>
+          <!-- AI feedback -->
+          <div id="demo-feedback" style="display:none">
+            <div style="display:flex;gap:12px">
+              <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--blue));display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:700;color:#fff;flex-shrink:0;margin-top:2px">AI</div>
+              <div style="flex:1">
+                <div style="font-size:.68rem;color:var(--text3);margin-bottom:5px">DesignMock AI · Feedback</div>
+                <div style="background:var(--surface2);border:1px solid var(--border);border-radius:14px;border-top-left-radius:3px;padding:16px 18px">
+                  <div style="font-size:.8rem;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px">Answer Analysis</div>
+                  <div style="display:flex;flex-direction:column;gap:9px">
+                    <div style="display:flex;align-items:flex-start;gap:10px;font-size:.87rem">
+                      <span style="color:var(--green);font-weight:700;flex-shrink:0;margin-top:1px">✓</span>
+                      <span><strong style="color:var(--text)">Strong problem framing</strong> — You identified a clear user pain point before jumping to solutions. This signals mature design thinking.</span>
+                    </div>
+                    <div style="display:flex;align-items:flex-start;gap:10px;font-size:.87rem">
+                      <span style="color:var(--green);font-weight:700;flex-shrink:0;margin-top:1px">✓</span>
+                      <span><strong style="color:var(--text)">Clear design process</strong> — Discovery → ideation → testing → ship is well articulated. Hiring managers can follow your thinking.</span>
+                    </div>
+                    <div style="display:flex;align-items:flex-start;gap:10px;font-size:.87rem">
+                      <span style="color:var(--amber);font-weight:700;flex-shrink:0;margin-top:1px">⚠</span>
+                      <span><strong style="color:var(--text)">Missing business outcome</strong> — You mentioned the design improved onboarding, but didn't quantify it. What changed in activation rate, retention, or revenue? Add a number.</span>
+                    </div>
+                    <div style="display:flex;align-items:flex-start;gap:10px;font-size:.87rem">
+                      <span style="color:var(--green);font-weight:700;flex-shrink:0;margin-top:1px">✓</span>
+                      <span><strong style="color:var(--text)">Good communication structure</strong> — Answer was well-paced and easy to follow. You avoided jargon and stayed concrete.</span>
+                    </div>
+                  </div>
+                  <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:gap">
+                    <div style="font-size:.78rem;color:var(--text3)">Response score</div>
+                    <div style="display:flex;align-items:center;gap:10px">
+                      <div style="width:100px;height:5px;background:var(--border2);border-radius:100px;overflow:hidden"><div style="width:76%;height:100%;background:linear-gradient(90deg,var(--accent),var(--blue));border-radius:100px"></div></div>
+                      <span style="font-size:.85rem;font-weight:700;color:var(--accent2)">76 / 100</span>
+                    </div>
+                  </div>
+                  <div style="margin-top:10px;background:rgba(251,191,36,.06);border:1px solid rgba(251,191,36,.15);border-radius:8px;padding:9px 12px;font-size:.78rem;color:var(--amber)">
+                    💡 <strong>Improvement tip:</strong> Add "We saw a 34% improvement in day-7 retention" or similar. One metric will push this answer from good to excellent.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Demo input area -->
+        <div style="border-top:1px solid var(--border);padding:16px 20px;display:flex;gap:10px;align-items:flex-end" id="demo-input-area">
+          <textarea id="demo-input" placeholder="Type your answer here, or click 'Use sample answer' to see how AI feedback works..." style="flex:1;background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:11px 14px;font-size:.88rem;color:var(--text);font-family:'Inter',sans-serif;resize:none;height:60px;outline:none;transition:border-color .2s;line-height:1.5" onfocus="this.style.borderColor='rgba(124,109,250,.5)'" onblur="this.style.borderColor='var(--border2)'"></textarea>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <button onclick="runDemoWithSample()" style="background:linear-gradient(135deg,var(--accent),#6b5ce7);color:#fff;border:none;border-radius:8px;padding:10px 14px;font-size:.78rem;font-weight:600;cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif;transition:all .2s" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">Use sample →</button>
+            <button onclick="runDemoWithInput()" style="background:var(--surface2);color:var(--text2);border:1px solid var(--border2);border-radius:8px;padding:10px 14px;font-size:.78rem;font-weight:500;cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif;transition:all .2s" onmouseover="this.style.background='var(--bg3)'" onmouseout="this.style.background='var(--surface2)'">Submit mine</button>
+          </div>
+        </div>
+        <div id="demo-reset-bar" style="display:none;border-top:1px solid var(--border);padding:12px 20px;text-align:center">
+          <button onclick="resetDemo()" style="background:none;border:1px solid var(--border2);border-radius:8px;padding:8px 18px;font-size:.8rem;color:var(--text2);cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s" onmouseover="this.style.borderColor='var(--border2)';this.style.color='var(--text)'" onmouseout="this.style.color='var(--text2)'">← Try again with a different answer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="stats-bar">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item fade-up">
+        <div class="stat-num" data-count="1200" data-suffix="+" id="s1">0</div>
+        <div class="stat-label">Designers on the waitlist</div>
+      </div>
+      <div class="stat-item fade-up">
+        <div class="stat-num" data-count="6" data-suffix="" id="s2">0</div>
+        <div class="stat-label">Interview categories covered</div>
+      </div>
+      <div class="stat-item fade-up">
+        <div class="stat-num" data-count="300" data-suffix="+" id="s3">0</div>
+        <div class="stat-label">Practice questions in our library</div>
+      </div>
+      <div class="stat-item fade-up">
+        <div class="stat-num" data-count="60" data-suffix="s" id="s4">0</div>
+        <div class="stat-label">To get your first AI feedback report</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WHY DESIGNERS FAIL -->
+<section class="section why-section">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="label section-label">The problem</div>
+      <h2 class="display-sm">Why talented designers fail interviews</h2>
+      <p>The gap between being a great designer and interviewing like one is real. Here's what most candidates get wrong.</p>
+    </div>
+    <div class="grid3">
+      <div class="fail-card fade-up">
+        <div class="fail-tag">Common mistake</div>
+        <div class="fail-icon">📖</div>
+        <h3 class="h3">Weak storytelling</h3>
+        <p>Designers describe what they did, not why decisions were made or what problems they were solving. Recruiters want narrative, not feature lists.</p>
+      </div>
+      <div class="fail-card fade-up">
+        <div class="fail-tag">Common mistake</div>
+        <div class="fail-icon">📊</div>
+        <h3 class="h3">No metrics discussion</h3>
+        <p>Vague outcomes like "improved user experience" don't land. Interviewers at top companies expect conversion rates, NPS changes, and retention data.</p>
+      </div>
+      <div class="fail-card fade-up">
+        <div class="fail-tag">Common mistake</div>
+        <div class="fail-icon">💡</div>
+        <h3 class="h3">Shallow product thinking</h3>
+        <p>Answering design questions without demonstrating business context, user research strategy, or tradeoff reasoning signals junior-level thinking.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="label section-label">How it works</div>
+      <h2 class="display-sm">From zero to offer-ready in hours</h2>
+      <p>A focused three-step process that mirrors real interviews at top design-forward companies.</p>
+    </div>
+    <div class="steps-wrap fade-up">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3 class="h3" style="margin-bottom:10px">Choose your role</h3>
+        <p style="font-size:.85rem;color:var(--text2);margin-bottom:14px">Select the exact role you're targeting to get questions tailored to your level and specialty.</p>
+        <div class="role-chips">
+          <span class="chip">Product Designer</span>
+          <span class="chip">UX Designer</span>
+          <span class="chip">UI Designer</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3 class="h3" style="margin-bottom:10px">Start your AI interview</h3>
+        <p style="font-size:.85rem;color:var(--text2);margin-bottom:14px">Our AI conducts a live mock interview using real questions from companies like Google, Airbnb, Figma, and Notion — adapting based on your answers.</p>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 14px;font-size:.75rem;color:var(--text2)">
+          🎙 Voice or text mode available
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3 class="h3" style="margin-bottom:10px">Get detailed feedback</h3>
+        <p style="font-size:.85rem;color:var(--text2);margin-bottom:14px">Receive a full report with scores, strengths, gaps, and a personalized improvement plan ready in under 60 seconds.</p>
+        <div style="background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.2);border-radius:10px;padding:10px 14px;font-size:.75rem;color:var(--green)">
+          ✓ PDF report included
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MOCK INTERVIEW PREVIEW -->
+<section class="section" style="background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="label section-label">Sample session</div>
+      <h2 class="display-sm">See what a real session looks like</h2>
+      <p>Every question is adapted from actual design interviews at top companies, asked naturally by our AI interviewer.</p>
+    </div>
+    <div class="chat-wrap fade-up">
+      <div class="chat-bubble ai" style="animation-delay:.1s">
+        <div class="chat-avatar">AI</div>
+        <div>
+          <div style="font-size:.7rem;color:var(--text3);margin-bottom:5px;padding-left:2px">DesignMock AI · Now</div>
+          <div class="bubble">Hi! I'm your AI interviewer today. We'll be doing a Senior Product Designer interview. Ready to start? Let's begin with a warm-up — <strong>tell me about a project you're most proud of.</strong></div>
+        </div>
+      </div>
+      <div class="chat-bubble user" style="animation-delay:.2s">
+        <div class="chat-avatar">You</div>
+        <div>
+          <div style="font-size:.7rem;color:var(--text3);margin-bottom:5px;padding-right:2px">You · Just now</div>
+          <div class="bubble">I led the redesign of our mobile onboarding flow at Kairo. Users were dropping off at 68% on the second screen. I ran discovery with 18 user interviews, identified three core friction points, and shipped a redesigned flow in 6 weeks...</div>
+        </div>
+      </div>
+      <div class="chat-bubble ai" style="animation-delay:.3s">
+        <div class="chat-avatar">AI</div>
+        <div>
+          <div style="font-size:.7rem;color:var(--text3);margin-bottom:5px;padding-left:2px">DesignMock AI · Now</div>
+          <div class="bubble">Great start — I love that you led with a quantified problem. Let me push deeper here: <strong>how did you measure success, and what was the outcome you shipped against?</strong></div>
+        </div>
+      </div>
+      <div class="chat-bubble user" style="animation-delay:.4s">
+        <div class="chat-avatar">You</div>
+        <div>
+          <div style="font-size:.7rem;color:var(--text3);margin-bottom:5px;padding-right:2px">You · Just now</div>
+          <div class="bubble">We tracked drop-off rate per step using Mixpanel, and set a goal of reducing second-screen drop-off by 30%. We hit 41% improvement — activation rate went from 32% to 54% in 30 days post-launch...</div>
+        </div>
+      </div>
+      <div class="chat-bubble ai" style="animation-delay:.5s">
+        <div class="chat-avatar">AI</div>
+        <div>
+          <div style="font-size:.7rem;color:var(--text3);margin-bottom:5px;padding-left:2px">DesignMock AI · Now</div>
+          <div class="bubble">Excellent metrics framing — that's exactly the level of specificity top companies want. One more: <strong>were there any design decisions you pushed back on or trade-offs you had to navigate with stakeholders?</strong></div>
+        </div>
+      </div>
+      <div class="chat-bubble ai" style="animation-delay:.7s">
+        <div class="chat-avatar">AI</div>
+        <div style="display:flex;flex-direction:column;gap:0">
+          <div style="font-size:.7rem;color:var(--text3);margin-bottom:5px;padding-left:2px">DesignMock AI · Typing</div>
+          <div class="chat-typing">
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEEDBACK REPORT -->
+<section class="section" id="report">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="label section-label">Sample feedback report</div>
+      <h2 class="display-sm">Recruiter-level analysis, instantly</h2>
+      <p>Every session produces a detailed scorecard your hiring manager would be proud of — giving you the exact intel to improve.</p>
+    </div>
+    <div class="report-wrap fade-up">
+      <div class="report-header">
+        <div>
+          <div class="label" style="margin-bottom:6px">Session Report</div>
+          <div class="h2">Senior Product Designer Interview</div>
+          <div style="font-size:.8rem;color:var(--text3);margin-top:4px">Google × Design Systems Team · June 2025</div>
+        </div>
+        <div class="hire-badge">
+          <span class="hire-dot"></span>
+          Strong Hire
+        </div>
+      </div>
+      <div class="report-body">
+        <div class="score-items">
+          <div class="score-item">
+            <div class="score-item-inner">
+              <span class="score-item-label">Communication & Clarity</span>
+              <div class="score-item-bar-wrap"><div class="score-item-bar" style="width:92%"></div></div>
+              <span class="score-item-num" style="color:var(--green)">92</span>
+            </div>
+            <div style="font-size:.75rem;color:var(--text3);padding-left:2px">Clear articulation of complex ideas. Excellent pacing and structure.</div>
+          </div>
+          <div class="score-item">
+            <div class="score-item-inner">
+              <span class="score-item-label">Problem Solving</span>
+              <div class="score-item-bar-wrap"><div class="score-item-bar" style="width:87%;background:linear-gradient(90deg,var(--blue),#818cf8)"></div></div>
+              <span class="score-item-num" style="color:var(--blue)">87</span>
+            </div>
+            <div style="font-size:.75rem;color:var(--text3);padding-left:2px">Strong structured thinking. Opportunity: show more exploration before solutioning.</div>
+          </div>
+          <div class="score-item">
+            <div class="score-item-inner">
+              <span class="score-item-label">Product Thinking</span>
+              <div class="score-item-bar-wrap"><div class="score-item-bar" style="width:83%;background:linear-gradient(90deg,var(--accent),#a78bfa)"></div></div>
+              <span class="score-item-num" style="color:var(--accent2)">83</span>
+            </div>
+            <div style="font-size:.75rem;color:var(--text3);padding-left:2px">Good business lens. Deepen discussion of competitive positioning and user segments.</div>
+          </div>
+          <div class="score-item">
+            <div class="score-item-inner">
+              <span class="score-item-label">Research Thinking</span>
+              <div class="score-item-bar-wrap"><div class="score-item-bar" style="width:90%;background:linear-gradient(90deg,#34d399,#059669)"></div></div>
+              <span class="score-item-num" style="color:var(--green)">90</span>
+            </div>
+            <div style="font-size:.75rem;color:var(--text3);padding-left:2px">Strong mixed-methods approach. Excellent use of qualitative and quantitative data.</div>
+          </div>
+          <div class="score-item">
+            <div class="score-item-inner">
+              <span class="score-item-label">Storytelling</span>
+              <div class="score-item-bar-wrap"><div class="score-item-bar" style="width:88%;background:linear-gradient(90deg,var(--pink),#e879f9)"></div></div>
+              <span class="score-item-num" style="color:var(--pink)">88</span>
+            </div>
+            <div style="font-size:.75rem;color:var(--text3);padding-left:2px">Compelling STAR format. Portfolio narrative is cohesive and memorable.</div>
+          </div>
+          <div class="score-item">
+            <div class="score-item-inner">
+              <span class="score-item-label">Stakeholder Communication</span>
+              <div class="score-item-bar-wrap"><div class="score-item-bar" style="width:78%;background:linear-gradient(90deg,var(--amber),#f59e0b)"></div></div>
+              <span class="score-item-num" style="color:var(--amber)">78</span>
+            </div>
+            <div style="font-size:.75rem;color:var(--text3);padding-left:2px">Good examples. Add more on navigating executive feedback and disagreements.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section" id="features" style="background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="label section-label">Everything you need</div>
+      <h2 class="display-sm">Built for how designers actually interview</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
+      <div class="feat-card fade-up">
+        <div class="feat-icon" style="background:rgba(124,109,250,.12)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+        </div>
+        <h3 class="h3">Unlimited mock interviews</h3>
+        <p>Practice as much as you need. New question sets generated each session so you never repeat yourself.</p>
+      </div>
+      <div class="feat-card fade-up">
+        <div class="feat-icon" style="background:rgba(96,165,250,.12)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/></svg>
+        </div>
+        <h3 class="h3">Role-specific questions</h3>
+        <p>Questions calibrated to Senior, Staff, and Lead levels across Product, UX, and UI specialties.</p>
+      </div>
+      <div class="feat-card fade-up">
+        <div class="feat-icon" style="background:rgba(52,211,153,.12)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        </div>
+        <h3 class="h3">Recruiter-style scoring</h3>
+        <p>Our scoring mirrors how actual design hiring managers at FAANG-level companies evaluate candidates.</p>
+      </div>
+      <div class="feat-card fade-up">
+        <div class="feat-icon" style="background:rgba(244,114,182,.12)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f472b6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+        </div>
+        <h3 class="h3">Portfolio walk-through practice</h3>
+        <p>Dedicated sessions to sharpen how you present case studies and defend your design decisions.</p>
+      </div>
+      <div class="feat-card fade-up">
+        <div class="feat-icon" style="background:rgba(251,191,36,.12)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <h3 class="h3">Behavioral interview prep</h3>
+        <p>Practice the "tell me about a time when..." format until STAR answers come naturally.</p>
+      </div>
+      <div class="feat-card fade-up">
+        <div class="feat-icon" style="background:rgba(167,139,250,.12)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c4b5fd" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <h3 class="h3">AI improvement plans</h3>
+        <p>Each report ends with a personalized action plan: exactly what to work on before your next session.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SAMPLE IMPROVEMENTS -->
+<section class="section">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="label section-label">Example candidate outcomes</div>
+      <h2 class="display-sm">What improvement looks like</h2>
+      <p>These are illustrative examples of the types of improvements designers typically make through structured interview practice. Individual results will vary.</p>
+    </div>
+    <div class="grid3">
+      <div class="test-card fade-up">
+        <p class="test-quote">After focusing on answer structure over 6 practice sessions, storytelling scores in example feedback went from surface-level descriptions to clear problem-solution-outcome narratives with measurable impact.</p>
+        <div class="test-person">
+          <div class="test-avatar" style="background:linear-gradient(135deg,#7c6dfa,#60a5fa)">PD</div>
+          <div>
+            <div class="test-name">Example · Product Designer</div>
+            <div class="test-role">Senior level · 4 years experience</div>
+          </div>
+        </div>
+        <div style="margin-top:14px;display:flex;gap:8px;align-items:center">
+          <div style="flex:1;background:var(--surface2);border-radius:100px;height:5px;overflow:hidden"><div style="width:62%;height:100%;background:var(--text3);border-radius:100px"></div></div>
+          <span style="font-size:.72rem;color:var(--text3);white-space:nowrap">Session 1: 62%</span>
+        </div>
+        <div style="margin-top:6px;display:flex;gap:8px;align-items:center">
+          <div style="flex:1;background:var(--surface2);border-radius:100px;height:5px;overflow:hidden"><div style="width:91%;height:100%;background:linear-gradient(90deg,var(--green),#10b981);border-radius:100px"></div></div>
+          <span style="font-size:.72rem;color:var(--green);white-space:nowrap">Session 8: 91%</span>
+        </div>
+        <div class="test-outcome" style="background:rgba(124,109,250,.08);border-color:rgba(124,109,250,.2);color:var(--accent2)">↑ Storytelling score improved 29 points</div>
+      </div>
+      <div class="test-card fade-up">
+        <p class="test-quote">Through repeated practice on stakeholder scenarios, example candidate responses evolved from general statements to specific stories with clear business context, tradeoffs navigated, and outcomes measured.</p>
+        <div class="test-person">
+          <div class="test-avatar" style="background:linear-gradient(135deg,#f472b6,#fb923c)">UX</div>
+          <div>
+            <div class="test-name">Example · UX Designer</div>
+            <div class="test-role">Mid level · 2 years experience</div>
+          </div>
+        </div>
+        <div style="margin-top:14px;display:flex;gap:8px;align-items:center">
+          <div style="flex:1;background:var(--surface2);border-radius:100px;height:5px;overflow:hidden"><div style="width:55%;height:100%;background:var(--text3);border-radius:100px"></div></div>
+          <span style="font-size:.72rem;color:var(--text3);white-space:nowrap">Session 1: 55%</span>
+        </div>
+        <div style="margin-top:6px;display:flex;gap:8px;align-items:center">
+          <div style="flex:1;background:var(--surface2);border-radius:100px;height:5px;overflow:hidden"><div style="width:84%;height:100%;background:linear-gradient(90deg,var(--blue),#818cf8);border-radius:100px"></div></div>
+          <span style="font-size:.72rem;color:var(--blue);white-space:nowrap">Session 6: 84%</span>
+        </div>
+        <div class="test-outcome" style="background:rgba(96,165,250,.08);border-color:rgba(96,165,250,.2);color:var(--blue)">↑ Stakeholder communication up 29 points</div>
+      </div>
+      <div class="test-card fade-up">
+        <p class="test-quote">Product thinking responses in example sessions shifted from describing design solutions to articulating user problems first, connecting to business goals, and framing design decisions with measurable success criteria.</p>
+        <div class="test-person">
+          <div class="test-avatar" style="background:linear-gradient(135deg,#34d399,#0ea5e9)">UI</div>
+          <div>
+            <div class="test-name">Example · UI Designer</div>
+            <div class="test-role">Senior level · 5 years experience</div>
+          </div>
+        </div>
+        <div style="margin-top:14px;display:flex;gap:8px;align-items:center">
+          <div style="flex:1;background:var(--surface2);border-radius:100px;height:5px;overflow:hidden"><div style="width:58%;height:100%;background:var(--text3);border-radius:100px"></div></div>
+          <span style="font-size:.72rem;color:var(--text3);white-space:nowrap">Session 1: 58%</span>
+        </div>
+        <div style="margin-top:6px;display:flex;gap:8px;align-items:center">
+          <div style="flex:1;background:var(--surface2);border-radius:100px;height:5px;overflow:hidden"><div style="width:88%;height:100%;background:linear-gradient(90deg,var(--pink),#e879f9);border-radius:100px"></div></div>
+          <span style="font-size:.72rem;color:var(--pink);white-space:nowrap">Session 7: 88%</span>
+        </div>
+        <div class="test-outcome" style="background:rgba(244,114,182,.08);border-color:rgba(244,114,182,.2);color:var(--pink)">↑ Product thinking score improved 30 points</div>
+      </div>
+    </div>
+    <p style="text-align:center;font-size:.75rem;color:var(--text3);margin-top:32px">These are illustrative examples only. DesignMock AI is currently in development. Actual results will vary based on effort, starting ability, and frequency of practice.</p>
+  </div>
+</section>
+
+<!-- WHAT YOU'LL PRACTICE -->
+<section class="section" style="background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="label section-label">What you'll practice</div>
+      <h2 class="display-sm">Six ways to get interview-ready</h2>
+      <p>Every dimension of a real design interview loop, covered by dedicated practice modes with AI feedback calibrated to each format.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
+      <div class="feat-card fade-up" style="border-top:2px solid rgba(124,109,250,.4)">
+        <div class="feat-icon" style="background:rgba(124,109,250,.12)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <h3 class="h3" style="margin-bottom:6px">Product Design Interviews</h3>
+        <p style="font-size:.83rem;color:var(--text2);line-height:1.55">End-to-end design process questions. Problem framing, research approach, ideation, decisions, and shipped outcomes — all evaluated with recruiter-style rubrics.</p>
+        <div style="margin-top:14px;display:flex;flex-wrap:wrap;gap:5px">
+          <span style="background:var(--surface2);border:1px solid var(--border);border-radius:100px;padding:2px 9px;font-size:.68rem;color:var(--text3)">Case studies</span>
+          <span style="background:var(--surface2);border:1px solid var(--border);border-radius:100px;padding:2px 9px;font-size:.68rem;color:var(--text3)">Design decisions</span>
+          <span style="background:var(--surface2);border:1px solid var(--border);border-radius:100px;padding:2px 9px;font-size:.68rem;color:var(--text3)">Metrics</span>
+        </div>
+      </div>
+      <div class="feat-card fade-up" style="border-top:2px solid rgba(96,165,250,.4)">
+        <div class="feat-icon" style="background:rgba(96,165,250,.12)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        </div>
+        <h3 class="h3" style="margin-bottom:6px">Portfolio Reviews</h3>
+        <p style="font-size:.83rem;color:var(--text2);line-height:1.55">Present your case studies under simulated interview pressure. AI plays the role of a skeptical hiring manager — asking follow-up questions and probing your rationale.</p>
+        <div style="margin-top:14px;display:flex;flex-wrap:wrap;gap:5px">
+          <span style="background:var(--surface2);border:1px solid var(--border);border-radius:100px;padding:2px 9px;font-size:.68rem;color:var(--text3)">Narrative flow</span>
+          <span style="background:var(--surface2);border:1px solid var(--border);border-radius:100px;padding:2px 9px;font-size:.68rem;color:var(--text3)">Storytelling</span>
+          <span style="background:var(--surface2);border:1px solid var(--border);border-radius:100px;padding:2px 9px;font-size:.68rem;color:var(--text3)">Defense</span>
+        </div>
+      </div>
+      <div class="feat-card fade-up" style="border-top:2px solid rgba(52,211,153,.4)">
+        <div class="feat-icon" style="background:rgba(52,211,153,.12)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        </div>
+        <h3 class="h3" style="margin-bottom:6px">Behavioral Questions</h3>
+        <p style="font-size:.83rem;color:var(--text2);line-height:1.55">Practice STAR-format answers for conflict, leadership, ambiguity, and collaboration scenarios. Scored on structure, specificity, and impact framing.</p>
+        <div style="margin-top:14px;display:flex;flex-wrap:wrap;gap:5px">
+          <span style="background:var(--surface2);border:1px solid var(--border);border-radius:100px;padding:2px 9px;font-size:.68rem;color:var(--text3)">STAR method</span>
+          <span style="background:var(--surface2);border:1px solid var(--border);border-radius:100px;padding:2px 9px;font-size:.68rem;color:var(--text3)">Leadership</span>
+          <span style="background:var(--surface2);border:1px solid var(--border);border-radius:100px;padding:2px 9px;font-size:.68rem;color:var(--text3)">Conflict</span>
+        </div>
+      </div>
+      <div class="feat-card fade-up" style="border-top:2px solid rgba(251,191,36,.4)">
+        <div class="feat-icon" style="background:rgba(251,191,36,.12)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="3" y1="9" x2="21" y2="9"/></svg>
+        </div>
+        <h3 class="h3" style="margin-bottom:6px">Whiteboard Challenges</h3>
+        <p style="font-size:.83rem;color:var(--text2);line-height:1.55">Think out loud through open-ended design problems. Practice structuring ambiguous briefs, asking clarifying questions, and communicating your process verbally.</p>
+        <div style="margin-top:14px;display:flex;flex-wrap:wrap;gap:5px">
+          <span style="background:var(--surface2);border:1px solid var(--border);border-radius:100px;padding:2px 9px;font-size:.68rem;color:var(--text3)">Ambiguity</span>
+          <span style="background:var(--surface2);border:1px solid var(--border);border-radius:100px;padding:2px 9px;font-size:.68rem;color:var(--text3)">Verbal process</span>
+          <span style="background:var(--surface2);border:1px solid var(--border);border-radius:100px;padding:2px 9px;font-size:.68rem;color:var(--text3)">Ideation</span>
+        </div>
+      </div>
+      <div class="feat-card fade-up" style="border-top:2px solid rgba(244,114,182,.4)">
+        <div class="feat-icon" style="background:rgba(244,114,182,.12)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f472b6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3 class="h3" style="margin-bottom:6px">Stakeholder Discussions</h3>
+        <p style="font-size:.83rem;color:var(--text2);line-height:1.55">Role-play difficult stakeholder conversations: pushing back on feedback, aligning across teams, presenting to executives, and navigating disagreements diplomatically.</p>
+        <div style="margin-top:14px;display:flex;flex-wrap:wrap;gap:5px">
+          <span style="background:var(--surface2);border:1px solid var(--border);border-radius:100px;padding:2px 9px;font-size:.68rem;color:var(--text3)">Executive comms</span>
+          <span style="background:var(--surface2);border:1px solid var(--border);border-radius:100px;padding:2px 9px;font-size:.68rem;color:var(--text3)">Push-back</span>
+        </div>
+      </div>
+      <div class="feat-card fade-up" style="border-top:2px solid rgba(167,139,250,.4)">
+        <div class="feat-icon" style="background:rgba(167,139,250,.12)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c4b5fd" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <h3 class="h3" style="margin-bottom:6px">Design Critiques</h3>
+        <p style="font-size:.83rem;color:var(--text2);line-height:1.55">Practice giving and receiving structured design feedback. Evaluate sample designs under time pressure, communicate critique professionally, and frame suggestions constructively.</p>
+        <div style="margin-top:14px;display:flex;flex-wrap:wrap;gap:5px">
+          <span style="background:var(--surface2);border:1px solid var(--border);border-radius:100px;padding:2px 9px;font-size:.68rem;color:var(--text3)">Critique framing</span>
+          <span style="background:var(--surface2);border:1px solid var(--border);border-radius:100px;padding:2px 9px;font-size:.68rem;color:var(--text3)">Design quality</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section" id="faq">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="label section-label">FAQ</div>
+      <h2 class="display-sm">Common questions</h2>
+    </div>
+    <div class="faq-wrap fade-up">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          How realistic are the interview questions?
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">
+          <p>Our question library is built from real interview experiences shared by designers who've been through loops at design-forward companies. The AI adapts follow-up questions based on your answers, just like a real interviewer would — probing on specifics, asking for metrics, or pushing deeper on your reasoning.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          When is DesignMock AI launching?
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">
+          <p>We're currently in final development and opening access in batches to waitlist members. By joining the waitlist, you'll be notified before we open to the public — and waitlist members get the first available spots plus founding-member perks.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Can I practice for a specific role or seniority level?
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">
+          <p>Yes. You'll be able to select your target role (Product Designer, UX Designer, UI Designer) and seniority level (Mid, Senior, Staff/Principal). The AI calibrates questions and scoring rubrics accordingly — the expectations for a Staff Designer are meaningfully different from a Mid-level role.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          How is the AI feedback calibrated?
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">
+          <p>We designed the scoring rubrics in collaboration with senior design practitioners and people who have conducted structured interviews at design-forward companies. Each competency (storytelling, product thinking, UX process, etc.) is evaluated against criteria that reflect what strong candidates actually demonstrate — not just generic communication skills.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Does it only cover behavioral questions?
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">
+          <p>No — DesignMock AI is designed to cover the full interview loop: behavioral questions, portfolio walk-throughs, product design case studies, whiteboard challenges, stakeholder scenarios, and design critiques. Each mode has its own dedicated practice flow and feedback framework.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Is my interview data private?
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">
+          <p>Yes. Your practice sessions and responses are private to your account and will never be shared with employers, recruiters, or third parties. You will be able to delete your data at any time.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          How many sessions does it take to see improvement?
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">
+          <p>Based on how structured deliberate practice works, most people see meaningful structural improvement in their answers within 4–6 focused sessions. Consistency matters more than volume — one targeted session per day in the week before an interview is more effective than five sessions in a single day.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Will there be a free tier?
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">
+          <p>We're planning to offer a free tier that lets you try the core experience — including at least one full mock interview session with AI feedback. Waitlist members will have input on what the free tier includes. Pricing details will be shared before launch.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta" id="waitlist">
+  <div class="cta-inner">
+    <div class="cta-left fade-up">
+      <div class="cta-proof">
+        <div class="cta-avatars">
+          <span style="background:linear-gradient(135deg,#7c6dfa,#60a5fa)">PD</span>
+          <span style="background:linear-gradient(135deg,#f472b6,#fb923c)">UX</span>
+          <span style="background:linear-gradient(135deg,#34d399,#0ea5e9)">UI</span>
+          <span style="background:linear-gradient(135deg,#fbbf24,#f97316)">PD</span>
+          <span style="background:linear-gradient(135deg,#a78bfa,#ec4899)">+</span>
+        </div>
+        <span class="cta-proof-text"><strong>1,200+ designers</strong> already waiting</span>
+      </div>
+      <h2 class="display-sm" style="margin-bottom:16px">Be first in line<br>when we launch.</h2>
+      <p style="color:var(--text2);font-size:1rem;line-height:1.7;max-width:400px">DesignMock AI is coming soon. Join the waitlist now and get early access before we open to the public — plus founding member perks.</p>
+      <div class="cta-wins">
+        <div class="cta-win">
+          <div class="cta-win-dot"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round"><polyline points="2,6 5,9 10,3"/></svg></div>
+          <span>Free early access — no credit card, no commitment</span>
+        </div>
+        <div class="cta-win">
+          <div class="cta-win-dot"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round"><polyline points="2,6 5,9 10,3"/></svg></div>
+          <span>Founding member pricing locked in at launch</span>
+        </div>
+        <div class="cta-win">
+          <div class="cta-win-dot"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round"><polyline points="2,6 5,9 10,3"/></svg></div>
+          <span>Direct input on features before public launch</span>
+        </div>
+      </div>
+    </div>
+    <div class="cta-right-card fade-up">
+      <div class="label" style="margin-bottom:6px">Waitlist</div>
+      <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:4px">Reserve your spot</h3>
+      <p style="font-size:.8rem;color:var(--text3);margin-bottom:24px">We'll email you the moment early access opens.</p>
+      <div class="cta-input-row">
+        <input class="cta-input" id="cta-name" type="text" placeholder="Full name">
+        <input class="cta-input" id="cta-email" type="email" placeholder="Email address">
+      </div>
+      <div style="margin-bottom:16px">
+        <div style="font-size:.72rem;color:var(--text3);margin-bottom:8px">I'm a:</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <label style="display:flex;align-items:center;gap:6px;font-size:.78rem;color:var(--text2);cursor:pointer"><input type="radio" name="ctarole" style="accent-color:var(--accent)" checked> Product Designer</label>
+          <label style="display:flex;align-items:center;gap=6px;font-size:.78rem;color:var(--text2);cursor:pointer"><input type="radio" name="ctarole" style="accent-color:var(--accent)"> UX Designer</label>
+          <label style="display:flex;align-items:center;gap:6px;font-size:.78rem;color:var(--text2);cursor:pointer"><input type="radio" name="ctarole" style="accent-color:var(--accent)"> UI Designer</label>
+        </div>
+      </div>
+      <div id="cta-success" style="display:none;background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.25);border-radius:10px;padding:16px;text-align:center;margin-bottom:12px">
+        <div style="font-size:1.2rem;margin-bottom:4px">🎉</div>
+        <div style="font-weight:700;color:var(--green);margin-bottom:4px">You're on the list!</div>
+        <div style="font-size:.8rem;color:var(--text2)">We'll be in touch when early access opens.</div>
+      </div>
+      <button class="cta-submit" id="cta-wl-btn" onclick="submitCTAWaitlist()">Join the waitlist →</button>
+      <div class="cta-divider"><span></span><p>or continue with</p><span></span></div>
+      <button class="cta-alt">
+        <span style="display:flex;align-items:center;justify-content:center;gap:8px">
+          <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+          Sign up with Google
+        </span>
+      </button>
+      <p class="cta-fine">No spam. We'll only email when early access is ready.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="nav-logo" style="margin-bottom:10px">
+          <div class="nav-logo-mark">D</div>
+          DesignMock AI
+        </div>
+        <p>The AI interview simulator built for product designers. Practice smarter, land faster.</p>
+        <div style="display:flex;gap:12px;margin-top:16px">
+          <a href="#" style="color:var(--text3);font-size:.78rem;transition:color .2s" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text3)'">Twitter / X</a>
+          <a href="#" style="color:var(--text3);font-size:.78rem;transition:color .2s" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text3)'">LinkedIn</a>
+          <a href="#" style="color:var(--text3);font-size:.78rem;transition:color .2s" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text3)'">Discord</a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#how">How it works</a></li>
+          <li><a href="#demo-section">Try the demo</a></li>
+          <li><a href="#waitlist">Join waitlist</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="#">Interview guide</a></li>
+          <li><a href="#">Design career blog</a></li>
+          <li><a href="#">Question bank</a></li>
+          <li><a href="#">Success stories</a></li>
+          <li><a href="#">Podcast</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Privacy policy</a></li>
+          <li><a href="#">Terms of service</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 DesignMock AI. All rights reserved.</p>
+      <p style="display:flex;align-items:center;gap:6px"><span style="width:6px;height:6px;background:var(--amber);border-radius:50%"></span> Currently in development · Launching soon</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Nav scroll
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 20);
+});
+
+// Mobile nav
+function toggleMobileNav() {
+  document.getElementById('mobileNav').classList.toggle('open');
+}
+function closeMobileNav() {
+  document.getElementById('mobileNav').classList.remove('open');
+}
+
+// Smooth scroll
+function scrollTo(id) {
+  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+}
+
+// Particles
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+let particles = [];
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+function createParticle() {
+  return {
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    size: Math.random() * 1.5 + 0.4,
+    speedX: (Math.random() - 0.5) * 0.25,
+    speedY: (Math.random() - 0.5) * 0.25,
+    opacity: Math.random() * 0.5 + 0.1,
+    pulse: Math.random() * Math.PI * 2
+  };
+}
+
+for (let i = 0; i < 80; i++) particles.push(createParticle());
+
+function animateParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => {
+    p.pulse += 0.01;
+    p.x += p.speedX;
+    p.y += p.speedY;
+    if (p.x < 0) p.x = canvas.width;
+    if (p.x > canvas.width) p.x = 0;
+    if (p.y < 0) p.y = canvas.height;
+    if (p.y > canvas.height) p.y = 0;
+    const op = p.opacity * (0.7 + 0.3 * Math.sin(p.pulse));
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(167, 139, 250, ${op})`;
+    ctx.fill();
+  });
+  requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
+// Scroll animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 80);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+// Count-up animation
+function countUp(el, target, suffix, decimals = 0) {
+  const start = performance.now();
+  const duration = 2000;
+  const update = (now) => {
+    const progress = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const current = target * eased;
+    el.textContent = (decimals > 0 ? current.toFixed(decimals) : Math.floor(current).toLocaleString()) + suffix;
+    if (progress < 1) requestAnimationFrame(update);
+  };
+  requestAnimationFrame(update);
+}
+
+const statsObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const el = entry.target;
+      const count = parseFloat(el.dataset.count);
+      const suffix = el.dataset.suffix || '';
+      const decimals = 0;
+      countUp(el, count, suffix, decimals);
+      statsObserver.unobserve(el);
+    }
+  });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('[data-count]').forEach(el => statsObserver.observe(el));
+
+// Demo section
+const sampleAnswer = "I redesigned the onboarding flow for a B2B SaaS tool. We were seeing a lot of drop-off during the initial setup steps, so I ran discovery with about 12 existing users to understand where they were getting stuck. I found three main friction points: confusing terminology, too many steps before seeing value, and no progress indicator. I ran two rounds of usability tests on prototypes, then shipped a revised flow. The experience felt much smoother and users were completing setup faster.";
+
+function typeText(el, text, speed, cb) {
+  let i = 0;
+  el.textContent = '';
+  const interval = setInterval(() => {
+    el.textContent += text[i++];
+    if (i >= text.length) { clearInterval(interval); if (cb) cb(); }
+  }, speed);
+}
+
+function showDemoFlow(answer) {
+  const answerEl = document.getElementById('demo-answer');
+  const typedEl = document.getElementById('demo-typed');
+  const feedbackEl = document.getElementById('demo-feedback');
+  const inputArea = document.getElementById('demo-input-area');
+  const resetBar = document.getElementById('demo-reset-bar');
+
+  inputArea.style.display = 'none';
+  answerEl.style.display = 'flex';
+  answerEl.style.opacity = '0';
+  setTimeout(() => { answerEl.style.transition = 'opacity .4s'; answerEl.style.opacity = '1'; }, 50);
+
+  typeText(typedEl, answer, 18, () => {
+    setTimeout(() => {
+      feedbackEl.style.display = 'block';
+      feedbackEl.style.opacity = '0';
+      feedbackEl.style.transition = 'opacity .5s';
+      setTimeout(() => { feedbackEl.style.opacity = '1'; }, 50);
+      resetBar.style.display = 'block';
+    }, 600);
+  });
+}
+
+function runDemoWithSample() { showDemoFlow(sampleAnswer); }
+
+function runDemoWithInput() {
+  const val = document.getElementById('demo-input').value.trim();
+  if (!val) { document.getElementById('demo-input').style.borderColor = 'rgba(244,114,182,.6)'; setTimeout(() => document.getElementById('demo-input').style.borderColor = 'var(--border2)', 1500); return; }
+  showDemoFlow(val);
+}
+
+function resetDemo() {
+  document.getElementById('demo-answer').style.display = 'none';
+  document.getElementById('demo-feedback').style.display = 'none';
+  document.getElementById('demo-reset-bar').style.display = 'none';
+  document.getElementById('demo-input-area').style.display = 'flex';
+  document.getElementById('demo-input').value = '';
+}
+
+// Waitlist
+function submitCTAWaitlist() {
+  const btn = document.getElementById('cta-wl-btn');
+  const success = document.getElementById('cta-success');
+  btn.textContent = 'Adding you…';
+  btn.style.opacity = '.7';
+  setTimeout(() => {
+    btn.style.display = 'none';
+    success.style.display = 'block';
+  }, 900);
+}
+
+// FAQ
+function toggleFaq(btn) {
+  const answer = btn.nextElementSibling;
+  const arrow = btn.querySelector('.faq-arrow');
+  const isOpen = answer.classList.contains('open');
+  document.querySelectorAll('.faq-a.open').forEach(a => {
+    a.classList.remove('open');
+    a.previousElementSibling.querySelector('.faq-arrow').classList.remove('open');
+  });
+  if (!isOpen) {
+    answer.classList.add('open');
+    arrow.classList.add('open');
+  }
+}
+</script>
+</body>
+</html>
